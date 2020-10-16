@@ -1,0 +1,13 @@
+"parent1"	"parent2"	"n_progeny"
+"Coll0167"	"Coll0754"	1
+"Coll0167"	"Coll0608"	1
+"Coll0478"	"Coll0235"	1
+"Coll0478"	"Coll0609"	1
+"Coll0754"	"Coll0609"	1
+"Coll0642"	"Coll0536"	1
+"Coll0642"	"Coll0536"	1
+"Coll0235"	"Coll0418"	1
+"Coll0418"	"Coll0590"	1
+"Coll0019"	"Coll0385"	1
+"Coll0019"	"Coll0590"	1
+"Coll0385"	"Coll0608"	1
