@@ -7,7 +7,7 @@
 
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
     # load all file from "src/server"
     lapply(list.files("src/server/", full.names = TRUE),
            function(f) {

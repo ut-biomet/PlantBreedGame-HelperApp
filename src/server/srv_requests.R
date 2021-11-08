@@ -50,11 +50,10 @@ genoReq <- reactive({
 
 #### Observer ----
 observe({
-
   if (is.null(inputReq()) | is.null(genoReq()) ) {
-    hide(id = "req_dwnld")
+    shinyjs::hide(id = "req_dwnld")
   } else {
-    show(id = "req_dwnld")
+    shinyjs::show(id = "req_dwnld")
   }
 
 })

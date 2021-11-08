@@ -24,9 +24,19 @@ shinyUI(
             width = W_sideBar,
             sidebarMenu(
                 id = "leftMenu",
+                menuItem("Marker effect estimation",
+                         tabName = "EffEst",
+                         icon = icon("microscope")),
+                menuItem("Data Vizualisation",
+                         tabName = "dtaViz",
+                         icon = icon("tv")),
+                menuItem("Selection and Mating",
+                         tabName = "selectTools",
+                         icon = icon("filter")),
                 menuItem("Requests",
                          tabName = "requests",
-                         icon = icon("file"))
+                         icon = icon("file-invoice"))
+
             )
         ),
 
@@ -44,6 +54,7 @@ shinyUI(
 
 
             # load all file from "src/ui"
+            tabItems(tabItem(tabName = "hidden", useShinyjs())),
             do.call(tabItems,
                     lapply(
                         list.files("src/ui/", full.names = TRUE),

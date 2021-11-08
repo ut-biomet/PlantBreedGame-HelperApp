@@ -2,12 +2,11 @@
 # 2020
 #
 # Description:
-# ui file of the app module: "menu 1"
+# ui file of the app module: "requests"
 
 tabItem(tabName = "requests",
         # Inputs ----
         fluidRow(
-          useShinyjs(),
           shinydashboard::box(
             width = 12,
             title = "Create Breeding Game's requests",

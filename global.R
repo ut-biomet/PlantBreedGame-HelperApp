@@ -12,13 +12,17 @@ options(stringsAsFactors = FALSE)
 library(shiny)
 library(shinydashboard) # dashboards with 'Shiny'
 # library("shinydashboardPlus") # https://rinterface.com/shiny/shinydashboardPlus/
-# library(shinycssloaders) # Loading Animations
+library(shinycssloaders) # Loading Animations
 library(shinyjs) # javascript in shiny
 stopifnot("sass" %in% installed.packages()) # use of SASS for generating CSS
 
 library(DT)
-
-
+library(plotly)
+library(stringr)
+library(RAINBOWR)
+library(ggplot2)
+library(dendextend)
+library(lme4)
 
 #### Functions ####
 # load all file from "src/functions"
@@ -49,3 +53,6 @@ MAX_GEN <- 4
 MAX_INDS <- 300
 MAX_F1 <- 20
 SNP_CHIP <- "hd"
+
+# GWAS
+MAX_OBS_GWAS <- 1000

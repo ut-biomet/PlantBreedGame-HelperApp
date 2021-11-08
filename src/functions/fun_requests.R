@@ -79,17 +79,20 @@ createPltMatReq <- function(req,
                             prefix) {
 
   # create main child names
+  x <- max(nrow(req), 1000)
   req$childNames <- sprintf(fmt = paste0(prefix,
-                                                 "_%0", floor(log10(nrow(req))) +
+                                                 "_%0", floor(log10(x)) +
                                                    1, "i"),
                                     1:nrow(req))
   # generate output data.frame
+
   out <- do.call(rbind,
                  apply(req, 1, function(line) {
                    # get number of child
                    nChild <- as.numeric(line[3])
+                   x <- max(nChild, 1000)
                    # generate child names' suffic
-                   suff <- sprintf(fmt = paste0(".%0", floor(log10(nChild)) + 1, "i"),
+                   suff <- sprintf(fmt = paste0(".%0", floor(log10(x)) + 1, "i"),
                                    1:nChild)
                    # return data.frame
                    data.frame(
