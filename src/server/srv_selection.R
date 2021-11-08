@@ -35,7 +35,7 @@ select_markerDta <- reactive({
 
 select_predInds <- reactive({
 
-  if (is.null(select_genoDta()) | is.null(select_markerDta())) {
+  if (is.null(select_genoDta()) | is.null(select_markerDta()) | is.na(input$n_clust)) {
     return(NULL)
   }
 
@@ -48,7 +48,8 @@ select_predInds <- reactive({
   row.names(pred) <- NULL
   colnames(pred) <- c("Trait1", "Trait2", "Trait3", "Trait1 x Trait2", "ind")
   pred <- pred[,c("ind", "Trait1", "Trait2", "Trait3", "Trait1 x Trait2")]
-  # browser()
+
+
   if (input$n_clust > nrow(pred)) {
     pred$group <- NA
   } else {
