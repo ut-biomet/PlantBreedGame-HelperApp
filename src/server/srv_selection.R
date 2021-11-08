@@ -42,9 +42,11 @@ select_predInds <- reactive({
   pred <- predGenVal(select_genoDta(), select_markerDta(),
                      includeIntercept = TRUE)
   pred <- as.data.frame(pred)
-  pred$trait3 <- as.factor(pred$trait3)
   pred$trait1xtrait2 <- pred$trait1 * pred$trait2
+  pred <- round(pred, 4)
   pred$ind <- row.names(pred)
+  pred$trait3 <- as.factor(pred$trait3)
+
   row.names(pred) <- NULL
   colnames(pred) <- c("Trait1", "Trait2", "Trait3", "Trait1 x Trait2", "ind")
   pred <- pred[,c("ind", "Trait1", "Trait2", "Trait3", "Trait1 x Trait2")]
@@ -212,6 +214,7 @@ output$selectDT <- renderDataTable({
     return(DT::datatable(data.frame("." = character())))
   }
   DT::datatable(select_predInds(),
+                options = list(scrollX = T),
                 filter = "top",
                 style = 'default')
 
@@ -332,6 +335,7 @@ output$crossTableDT <- renderDataTable({
     return(DT::datatable(data.frame("." = character())))
   }
   DT::datatable(crossTab(),
+                options = list(scrollX = T),
                 style = 'default')
 
 })

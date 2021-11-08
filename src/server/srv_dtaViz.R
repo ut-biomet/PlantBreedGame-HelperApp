@@ -39,9 +39,11 @@ dtaViz_predInds <- reactive({
   pred <- predGenVal(dtaViz_genoDta(), dtaViz_markerDta(),
                      includeIntercept = TRUE)
   pred <- as.data.frame(pred)
-  pred$trait3 <- as.factor(pred$trait3)
   pred$trait1xtrait2 <- pred$trait1 * pred$trait2
+  pred <- round(pred, 4)
   pred$ind <- row.names(pred)
+  pred$trait3 <- as.factor(pred$trait3)
+
   row.names(pred) <- NULL
   colnames(pred) <- c("Trait1", "Trait2", "Trait3", "Trait1 x Trait2", "ind")
   pred <- pred[,c("ind", "Trait1", "Trait2", "Trait3", "Trait1 x Trait2")]
@@ -66,6 +68,7 @@ output$dtaVizDT <- renderDataTable({
     return(DT::datatable(data.frame("." = character())))
   }
   DT::datatable(dtaViz_predInds(),
+                options = list(scrollX = T),
                 style = 'default')
 
 })
