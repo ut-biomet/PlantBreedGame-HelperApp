@@ -110,101 +110,19 @@ ordMrkGeno <- function (genoColl, snpCoord) {
 }
 
 
-#' #' Estimate marker effects
-#' #'
-#' #' @param Y
-#' #' @param Xcepts
-#' #' @param target
-#' #' @param tIntercepts
-#' #' @param target
-#' #' @param multiTrait
-#' #' @param alpha
-#' #'
-#' #' @return
-#' #'
-#' #' @author Hamazaki Kosuke
-#' estMrkEff <- function (Y, X, tIntercepts, target = "quantitative",
-#'                        multiTrait = TRUE, alpha = 0) {
+#' Estimate marker effects
 #'
-#'   if (target == "quantitative") {
-#'     Y <- as.matrix(Y)
-#'     nTraits <- ncol(Y)
-#'     stopifnot(length(tIntercepts) == nTraits)
+#' @param Y
+#' @param Xcepts
+#' @param target
+#' @param tIntercepts
+#' @param target
+#' @param multiTrait
+#' @param alpha
 #'
-#'     lineNamesPheno <- rownames(Y)
-#'     lineNamesGeno <- rownames(X)
-#'     lineNames <- Reduce(f = intersect, x = list(lineNamesGeno, lineNamesPheno))  # 表現型にもマーカー遺伝子型にも含まれる系統名を抜き出し
+#' @return
 #'
-#'     X <- X[lineNames, ]   # 一致する系統名でマーカー遺伝子型を並び替え
-#'     Y <- Y[lineNames, ]   # 一致する系統名で表現型を並び替え
-#'
-#'     if (multiTrait) {
-#'       stopifnot(length(alpha) == 1)
-#'       model <- glmnet::cv.glmnet(x = X, y = Y, family = "mgaussian",
-#'                                  alpha = alpha, standardize = FALSE,
-#'                                  standardize.response = TRUE)
-#'
-#'       t1Weight <- as.matrix(coef(model, s = "lambda.min")[[1]])[, 1]
-#'       t2Weight <- as.matrix(coef(model, s = "lambda.min")[[2]])[, 1]
-#'       t1Weight[1] <- t1Weight[1] + tIntercepts[1]  # マーカー効果の前に切片情報を挿入
-#'       t2Weight[1] <- t2Weight[1] + tIntercepts[2]  # マーカー効果の前に切片情報を挿入
-#'       tWeights <- data.frame(trait1 = t1Weight, trait2 = t2Weight)
-#'     } else {
-#'       if (length(alpha) == 1) {
-#'         tWeights <- apply(X = Y, MARGIN = 2,
-#'                           FUN = function (y) {
-#'                             model <- glmnet::cv.glmnet(x = X, y = y, family = "gaussian",
-#'                                                        alpha = alpha, standardize = FALSE,
-#'                                                        standardize.response = TRUE)
-#'                             tWeight <- as.matrix(coef(model, s = "lambda.min"))[, 1]
-#'
-#'                             return(tWeight)
-#'                           })
-#'       } else if (length(alpha) == nTraits) {
-#'         tWeights <- sapply(X = 1:nTraits,
-#'                            FUN = function (traitNo) {
-#'                              model <- glmnet::cv.glmnet(x = X, y = Y[, traitNo], family = "gaussian",
-#'                                                         alpha = alpha[traitNo], standardize = FALSE,
-#'                                                         standardize.response = TRUE)
-#'                              tWeight <- as.matrix(coef(model, s = "lambda.min"))[, 1]
-#'
-#'                              return(tWeight)
-#'                            }, simplify = TRUE)
-#'       }
-#'       tWeights[1, 1] <- tWeights[1, 1] + tIntercepts[1]  # マーカー効果の前に切片情報を挿入
-#'       tWeights[1, 2] <- tWeights[1, 2] + tIntercepts[2]  # マーカー効果の前に切片情報を挿入
-#'     }
-#'
-#'     rownames(tWeights) <- c("Intercept", colnames(X))
-#'     colnames(tWeights) <- paste0("trait_", 1:nTraits)
-#'   } else {
-#'     nTraits <- ncol(as.matrix(Y))
-#'     stopifnot(nTraits == 1)
-#'     tIntercepts <- 0
-#'     multiTrait <- FALSE
-#'
-#'     lineNamesPheno <- names(Y)
-#'     lineNamesGeno <- rownames(X)
-#'     lineNames <- Reduce(f = intersect, x = list(lineNamesGeno, lineNamesPheno))  # 表現型にもマーカー遺伝子型にも含まれる系統名を抜き出し
-#'
-#'     X <- X[lineNames, ]   # 一致する系統名でマーカー遺伝子型を並び替え
-#'     Y <- Y[lineNames]   # 一致する系統名で表現型を並び替え
-#'
-#'     model <- glmnet::cv.glmnet(x = X, y = Y, family = "binomial",
-#'                                alpha = alpha, standardize = FALSE)
-#'     tWeights <- c(Intercept = 0, as.matrix(coef(model, s = "lambda.min"))[-1, 1])  # マーカー効果の前に切片情報を挿入
-#'     names(tWeights) <- c("Intercept", colnames(X))
-#'   }
-#'
-#'   return(tWeights)
-#' }
-#'
-
-
-
-
-
-### Estimate marker effects
+#' @author Hamazaki Kosuke
 estMrkEff <- function (Y, X, tIntercepts, target = "quantitative",
                        method = "GBLUP", multiTrait = TRUE, alpha = 0) {
 
