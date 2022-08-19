@@ -153,6 +153,8 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
     crosses <- data.frame(parent1 = parentCandsRand,
                           parent2 = c(parentCandsRand[-1],
                                       parentCandsRand[1])) # round-robin
+    rownames(crosses) <- 1:nrow(crosses)
+    colnames(crosses) <- paste0("parent", 1:2)
   } else if (mateMethod == "max-distance") {
     if (is.null(d)) {
       stop(paste0("Please set genetic distance between individuals by `d` ! \n",
@@ -188,7 +190,7 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
 
 
     crosses <- parentPairs
-    rownames(crosses) <- 1:nrow(parentPairs)
+    rownames(crosses) <- 1:nrow(crosses)
     colnames(crosses) <- paste0("parent", 1:2)
   } else if (mateMethod == "all-combination") {
     crosses <- t(combn(x = parentCands, m = 2)) # 全ての組合せを書き出し
@@ -197,6 +199,13 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
                        cbind(parentCands,
                              parentCands))
     } # 自殖させる場合は includeSelfing = TRUE で追加
+
+    rownames(crosses) <- 1:nrow(crosses)
+    colnames(crosses) <- paste0("parent", 1:2)
+  } else if (mateMethod == "autofecundation") {
+    crosses <- data.frame(parent1 = parentCands,
+                          parent2 = parentCands)
+    removeDxD <- FALSE
 
     rownames(crosses) <- 1:nrow(crosses)
     colnames(crosses) <- paste0("parent", 1:2)

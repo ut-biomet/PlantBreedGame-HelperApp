@@ -120,7 +120,8 @@ tabItem(tabName = "selectTools",
                                      selectInput("mateMethod_mate", "Mating Method",
                                                  choices = c("round-robin",
                                                              "max-distance",
-                                                             "all-combination"))
+                                                             "all-combination",
+                                                             "autofecundation"))
                                  ),
                                  div(title="TRUEなら全ての親候補の系統を自殖させる。",
                                      checkboxInput("includeSelfing", "Include Selfing", value = FALSE),
