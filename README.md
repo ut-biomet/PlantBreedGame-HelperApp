@@ -7,6 +7,28 @@ For more information about this game, please visit: [PlantBreedGame gitHub repos
 
 > Flutre, T., Diot, J., and David, J. (2019). PlantBreedGame: A Serious Game that Puts Students in the Breeder’s Seat. Crop Science. DOI 10.2135/cropsci2019.03.0183le
 
+# Installation on a Shiny-server
+
+```sh
+# get source code of the app
+git clone https://github.com/ut-biomet/PlantBreedGame-HelperApp.git
+
+# install R packages dependencies
+cd PlantBreedGame-HelperApp
+R -e 'renv::restore()'
+# because of R-Shiny, we need to isolate the renv libraries, see: https://community.rstudio.com/t/shiny-server-renv/71879/2
+R -e 'renv::isolate()'
+
+# copy the application in Shiny-server's directory
+cd ~
+cp PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp
+
+# # [optional] instead of copying the app in /srv/shiny-server, one can create
+# # symbolic links. By this way, the server can have several instances of the app:
+# ln -s /home/<user>/PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp-1
+# ln -s /home/<user>/PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp-2
+# ln -s /home/<user>/PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp-3
+```
 
 
 # App documentation:
