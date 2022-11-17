@@ -140,21 +140,15 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
   # browser()
   ### 交配親の組の決定
 
-  if (targetPop == "F1") {
+  if (mateMethod == "autofecundation") {
     crosses <- data.frame(parent1 = parentCands,
                           parent2 = parentCands)
-    mateMethod <- ""
     removeDxD <- FALSE
-    shinyjs::alert("この集団はF1集団なので、皆さんが設定した手法にかかわらず常に自植を行います。")
-  }
-
-  if (mateMethod == "round-robin") {
+  } else if (mateMethod == "round-robin") {
     parentCandsRand <- sample(parentCands)   # 親候補を無作為に並び替え
     crosses <- data.frame(parent1 = parentCandsRand,
                           parent2 = c(parentCandsRand[-1],
                                       parentCandsRand[1])) # round-robin
-    rownames(crosses) <- 1:nrow(crosses)
-    colnames(crosses) <- paste0("parent", 1:2)
   } else if (mateMethod == "max-distance") {
     if (is.null(d)) {
       stop(paste0("Please set genetic distance between individuals by `d` ! \n",
@@ -162,13 +156,11 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
     } # d が NULL ならエラー
 
     distMat <- as.matrix(d)
-
     parentCandsNow <- parentCands
     distMatCandNow <- distMat[parentCandsNow, parentCandsNow] # 親候補の距離行列
 
     ### 距離が一番遠いもの同士を交配
     parentPairs <- c()
-
 
     while (length(parentCandsNow) > 1) {
       whichMaxDist <- which(distMatCandNow == max(distMatCandNow),
@@ -186,12 +178,7 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
       parentPair <- c(parentCandsNow, parentCands[whichMaxDist])
       parentPairs <- rbind(parentPairs, parentPair)
     }
-
-
-
     crosses <- parentPairs
-    rownames(crosses) <- 1:nrow(crosses)
-    colnames(crosses) <- paste0("parent", 1:2)
   } else if (mateMethod == "all-combination") {
     crosses <- t(combn(x = parentCands, m = 2)) # 全ての組合せを書き出し
     if (includeSelfing) {
@@ -199,17 +186,10 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
                        cbind(parentCands,
                              parentCands))
     } # 自殖させる場合は includeSelfing = TRUE で追加
-
-    rownames(crosses) <- 1:nrow(crosses)
-    colnames(crosses) <- paste0("parent", 1:2)
-  } else if (mateMethod == "autofecundation") {
-    crosses <- data.frame(parent1 = parentCands,
-                          parent2 = parentCands)
-    removeDxD <- FALSE
-
-    rownames(crosses) <- 1:nrow(crosses)
-    colnames(crosses) <- paste0("parent", 1:2)
   }
+
+  rownames(crosses) <- 1:nrow(crosses)
+  colnames(crosses) <- paste0("parent", 1:2)
 
   if (removeDxD) {
     row.names(YPred) <- YPred$ind
