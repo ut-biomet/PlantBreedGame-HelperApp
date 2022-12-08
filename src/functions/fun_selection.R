@@ -246,7 +246,10 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
     ######
     # nProgenies0 <- floor(nTotal * exp(h * yProdEachPair) / sum(exp(h * yProdEachPair))) # 各ペアの目標値で重み付けた次世代個体数の算出（ソフトマックス関数の利用）
     # browser()
-    nProgenies0 <- floor(nTotal * pmin(exp(h * yProdEachPair), 10^9) / sum( pmin(exp(h * yProdEachPair), 10^9))) # julien. limit exp(h * yProdEachPair) at 10^9
+    # nProgenies0 <- floor(nTotal * pmin(exp(h * yProdEachPair), 10^9) / sum( pmin(exp(h * yProdEachPair), 10^9))) # julien. limit exp(h * yProdEachPair) at 10^9
+
+    nProgenies0 <- floor(nTotal * softmax(h*yProdEachPair))
+
     crosseSorted <- crosses[order(yProdEachPair, decreasing = TRUE), ]
     nProgenies <- nProgenies0[order(yProdEachPair, decreasing = TRUE)]
 
