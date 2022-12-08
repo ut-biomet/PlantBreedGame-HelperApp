@@ -250,7 +250,7 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
 
     nProgenies0 <- floor(nTotal * softmax(h*yProdEachPair))
 
-    crosseSorted <- crosses[order(yProdEachPair, decreasing = TRUE), ]
+    crosses <- crosses[order(yProdEachPair, decreasing = TRUE), ]
     nProgenies <- nProgenies0[order(yProdEachPair, decreasing = TRUE)]
 
     nResids <- nTotal - sum(nProgenies0)
