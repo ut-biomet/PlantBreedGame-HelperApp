@@ -121,10 +121,14 @@ observeEvent(input$clust_autoSelect, {
   }
   # browser()
 
-  selInds <- selectParentCands(YPred = select_predInds(), tre = select_cluster(),
-                    traitNo = input$trait_clust, nCluster = input$n_clust,
-                    topCluster = input$top_clust, nTopEach = input$nTopEach_clust,
-                    nMaxDisease = input$nMaxT3_clust, nTop = input$nTop_clust)
+  selInds <- selectParentCands(YPred = select_predInds(),
+                               tre = select_cluster(),
+                               traitNo = input$trait_clust,
+                               nCluster = input$n_clust,
+                               topCluster = input$top_clust,
+                               nTopEach = input$nTopEach_clust,
+                               nMaxDisease = input$nMaxT3_clust,
+                               nTop = input$nTop_clust)
 
   manSel <- input$selectDT_rows_selected
   autoSel <- which(select_predInds()$ind %in% selInds)

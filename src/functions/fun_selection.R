@@ -11,7 +11,7 @@
 #' @param decreasing
 #'
 extractTopN <- function (v, n, decreasing = TRUE) {      # vというベクトルの上からn系統を取ってくる関数を定義
-  sort(v, decreasing = decreasing)[1:n]
+  sort(v, decreasing = decreasing)[1:min(n, length(v))]
 }
 
 #' Select candidates for parentCands from predicted values
@@ -30,7 +30,6 @@ selectParentCands <- function(YPred, tre, traitNo = 1:2,
                                nCluster = 10, topCluster = 10,
                                nTopEach = 3, nMaxDisease = 2,
                                nTop = NULL) {
-
 
   rownames(YPred) <- YPred$ind
   gr <- cutree(tre, nCluster) # nClusterに分割
@@ -75,13 +74,14 @@ selectParentCands <- function(YPred, tre, traitNo = 1:2,
 
   YPredTopN2 <- YPredTopN[YPredTopNMeanOrderedTops] # 上位topCluster個のクラスタの予測値リスト
   YPredTopN2Vec <- unlist(YPredTopN2, use.names = FALSE)  # リストをベクトル化
-  parentCands0 <- c(sapply(YPredTopN2, names))  # 親の候補となりうる系統名
+  parentCands0 <- unlist((lapply(YPredTopN2, names)))  # 親の候補となりうる系統名
   names(YPredTopN2Vec) <- parentCands0
 
   YPredTopN2VecSorted <- sort(YPredTopN2Vec, decreasing = TRUE)  # 大きい順に並び替え
   parentCandsSorted <- parentCands0[order(YPredTopN2Vec, decreasing = TRUE)] # 親候補の系統名も並び替え
 
   disease <- as.numeric(as.character(YPred[parentCandsSorted, "Trait3"])) < 0  # 親候補で耐病性をもたない系統
+
 
   if (nMaxDisease > 0 & sum(disease) > 0) {
     parentCandsDisease <- (parentCandsSorted[disease])[1:min(sum(disease), nMaxDisease)]
