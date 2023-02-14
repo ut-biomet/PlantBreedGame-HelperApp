@@ -140,7 +140,14 @@ observeEvent(input$clust_autoSelect, {
   selectRows(selectDT_proxy, selLines, ignore.selectable = FALSE)
 })
 
-observeEvent(input$clust_clear, {
+
+clearSelectionTrigger <- reactive({
+  list(
+    input$clust_clear, # clear button
+    input$select_GenoFile # geno file upload
+  )
+})
+observeEvent(clearSelectionTrigger(), {
   selectRows(selectDT_proxy, c(), ignore.selectable = FALSE)
 })
 
@@ -242,7 +249,6 @@ output$selectDwnld <- downloadHandler(
 
 #### Reactive variables ----
 crossTab <- eventReactive(input$mate_btn, {
-
   if (is.null(select_dist()) | is.null(select_predInds())) {
     return(NULL)
   }
@@ -309,7 +315,7 @@ observe({
 })
 
 # check cross table
-observe({
+observeEvent(crossTab(), {
 
   if (is.null(crossTab()) | is.null(select_predInds())) {
     return(NULL)
@@ -332,6 +338,7 @@ observe({
     alert(msg)
   }
 })
+
 #### Outputs ----
 output$crossTableDT <- renderDataTable({
 
