@@ -143,7 +143,6 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
   if (mateMethod == "autofecundation") {
     crosses <- data.frame(parent1 = parentCands,
                           parent2 = parentCands)
-    removeDxD <- FALSE
   } else if (mateMethod == "round-robin") {
     parentCandsRand <- sample(parentCands)   # 親候補を無作為に並び替え
     crosses <- data.frame(parent1 = parentCandsRand,
