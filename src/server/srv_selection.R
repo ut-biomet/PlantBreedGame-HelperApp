@@ -279,15 +279,15 @@ crossTab <- eventReactive(input$mate_btn, {
 observe({
   indName <- select_predInds()[,"ind"]
   if (all(grepl("^Coll", indName, perl = TRUE))) {
-    updateSelectInput(session, "currentPop", selected = "F0")
-  } else if (all(grepl("^F1", indName, perl = TRUE))) {
-    updateSelectInput(session, "currentPop", selected = "F1")
-  } else if (all(grepl("^F2", indName, perl = TRUE))) {
-    updateSelectInput(session, "currentPop", selected = "F2")
-  } else if (all(grepl("^F3", indName, perl = TRUE))) {
-    updateSelectInput(session, "currentPop", selected = "F3")
-  } else if (all(grepl("^F4", indName, perl = TRUE))) {
-    updateSelectInput(session, "currentPop", selected = "F4")
+    updateSelectInput(session, "currentPop", selected = "G0")
+  } else if (all(grepl("^G1", indName, perl = TRUE))) {
+    updateSelectInput(session, "currentPop", selected = "G1")
+  } else if (all(grepl("^G2", indName, perl = TRUE))) {
+    updateSelectInput(session, "currentPop", selected = "G2")
+  } else if (all(grepl("^G3", indName, perl = TRUE))) {
+    updateSelectInput(session, "currentPop", selected = "G3")
+  } else if (all(grepl("^G4", indName, perl = TRUE))) {
+    updateSelectInput(session, "currentPop", selected = "G4")
   }
 
   if (input$allocateMethod == "weighted") {
@@ -311,7 +311,8 @@ observe({
 
 observe({
   updateNumericInput(session, "nNew",
-                     max = ifelse(input$currentPop == "F0", 20, 300))
+                     value = ifelse(input$currentPop == "G0", 20, 300),
+                     max = ifelse(input$currentPop == "G0", 20, 300))
 })
 
 # check cross table

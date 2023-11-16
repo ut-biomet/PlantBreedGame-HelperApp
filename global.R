@@ -51,7 +51,7 @@ W_sideBar <- 300
 ## App related variables ##
 MAX_GEN <- 4
 MAX_INDS <- 300
-MAX_F1 <- 20
+MAX_G1 <- 20
 SNP_CHIP <- "hd"
 
 # GWAS

@@ -260,7 +260,7 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
   }
 
 
-  if (targetPop == "F0" ) {
+  if (targetPop == "G0" ) {
     orderForm <- data.frame(crosses,
                             n_progeny = 1)
   } else {
@@ -270,20 +270,20 @@ matePairs <- function (parentCands, YPred = NULL, d = NULL,
 
 
 
-  # } else { # 今の集団がF0なら、F1とF2用にそれぞれリクエストファイルを作る
-  #   orderFormForF1 <- data.frame(crosses,
+  # } else { # 今の集団がG0なら、G1とG2用にそれぞれリクエストファイルを作る
+  #   orderFormForG1 <- data.frame(crosses,
   #                                n_progeny = 1)
   #
-  #   nF1 <- nrow(crosses)
-  #   namesF1 <- paste0("F1_", sprintf(fmt = paste0("%0", floor(log10(max(1:nF1))) + 1, "i"), 1:nF1),
+  #   nG1 <- nrow(crosses)
+  #   namesG1 <- paste0("G1_", sprintf(fmt = paste0("%0", floor(log10(max(1:nG1))) + 1, "i"), 1:nG1),
   #                     ".1")
-  #   orderFormForF2 <- data.frame(parent1 = namesF1,
-  #                                parent2 = namesF1,
+  #   orderFormForG2 <- data.frame(parent1 = namesG1,
+  #                                parent2 = namesG1,
   #                                n_progeny = nProgenies)
   #
-  #   orderForm <- list(F1 = orderFormForF1,
-  #                     F2 = orderFormForF2)
-  #   orderForm <- orderFormForF1
+  #   orderForm <- list(G1 = orderFormForG1,
+  #                     G2 = orderFormForG2)
+  #   orderForm <- orderFormForG1
   #   # return(orderForm)
   # }
 

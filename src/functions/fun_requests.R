@@ -9,7 +9,7 @@
 #' Check request
 #'
 #' @param req data.frame "parent1", "parent2", "nChild"
-#' @param prefix F1, F2, ...
+#' @param prefix G1, G2, ...
 #'
 #' @return bool
 checkRequest <- function(req,
@@ -54,7 +54,7 @@ checkRequest <- function(req,
 
   # check total number of children
   totChild <- sum(req[,3])
-  maxChild <- ifelse(prefix != "F1", MAX_INDS, MAX_F1)
+  maxChild <- ifelse(prefix != "G1", MAX_INDS, MAX_G1)
   if (totChild > maxChild) {
     msg <- paste0("Error: Too many children.\n",
                   'For the generation ,"', prefix,

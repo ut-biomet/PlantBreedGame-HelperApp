@@ -17,8 +17,8 @@ tabItem(tabName = "requests",
               tags$ul(
                       tags$li('".txt" file with tabulation as separator'),
                       tags$li('3 columns: "parent1", "parent2", "n_progeny"'),
-                      tags$li(paste('Max total number of progenies:', MAX_F1,
-                                    "for F1,", MAX_INDS, "for others."))
+                      tags$li(paste('Max total number of progenies:', MAX_G1,
+                                    "for G1,", MAX_INDS, "for others."))
               )
             ),
 
@@ -27,7 +27,7 @@ tabItem(tabName = "requests",
               class = "",
               width = "20%",
               selectInput("prefix", "Generation",
-                          paste0("F", seq(MAX_GEN))),
+                          paste0("G", seq(MAX_GEN))),
               fileInput("reqFile", "Request file:")
             )
           )

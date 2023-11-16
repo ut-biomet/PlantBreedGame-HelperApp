@@ -116,8 +116,8 @@ Once you have selected some individuals, you can automatically mate them.
   a. `equal`: all the couple will generate the same number of offspring (if possible, if not some couple will generate one more offspring)
   a. `weighted`: some couples will generate more offspring according to their mean predicted value for `Trait`.
 1. Specify the current population.
-  - For the population "F0", the number of offspring per couple will be set to 1 (this population is homozygote).
-  - For the population "F1", only auto-fecundation will be proceeded.
+  - For the population "G0", the number of offspring per couple will be set to 1 (this population is homozygote).
+  - For the population "G1", only auto-fecundation will be proceeded.
 1. Set the total number of offspring to generate.
 1. Go to the "Plot" tab to visualize the mating on the `trait1` vs `trait2` graph.
 1. Download the crossing table by clicking on the "Download" button.
@@ -129,6 +129,6 @@ Once you have selected some individuals, you can automatically mate them.
 This tool create the request files for the PlantBreedGame. Two file are created:
 the "Plant material request" and "Genotyping request".
 
-1. Select the new generation name (F1, F2 ...)
+1. Select the new generation name (G1, G2 ...)
 1. Upload the file downloaded at the "Mating" step
 1. You can then download a zip file containing the request for PlantBreedGame.

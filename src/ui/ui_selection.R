@@ -144,11 +144,11 @@ tabItem(tabName = "selectTools",
                                  ),
                                  div(title = "",
                                      selectInput("currentPop", "Current population",
-                                                 choices = paste0("F", 0:4))
+                                                 choices = paste0("G", 0:4))
                                  ),
                                  div(title = "",
                                      numericInput("nNew", "Number of offsprings",
-                                                 value = 300, min = 1, max = 300)
+                                                 value = 20, min = 1, max = 300)
                                  ),
                                  actionButton("mate_btn", "Mate"),
                                  # actionButton("clust_clear", "Clear", icon = icon("broom")),
