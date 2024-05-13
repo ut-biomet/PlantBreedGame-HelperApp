@@ -61,6 +61,7 @@
           nativeBuildInputs = [pkgs.bashInteractive];
           buildInputs = [
             R-with-my-packages
+            pkgs.sass
           ];
         };
 
@@ -70,6 +71,7 @@
             runApp = pkgs.writeShellApplication {
               name = "runApp";
               text = ''
+                sass www/appStyle.scss www/appStyle.css
                 Rscript --vanilla -e "shiny::runApp()"
               '';
             };

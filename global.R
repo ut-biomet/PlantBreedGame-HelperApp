@@ -29,14 +29,9 @@ library(lme4)
 lapply(list.files("src/functions/",
                   pattern = ".R$",
                   full.names = TRUE), source)
-
-
-#### Compile CSS style sheet ####
-sass::sass(input = sass::sass_file("www/appStyle.scss"),
-           output = "www/appStyle.css")
-
-
-
+if (!file.exists("www/appStyle.css")) {
+  stop("CSS file have not been initialised. Please run `sass www/appStyle.scss www/appStyle.css` before launching this application")
+}
 
 #### Global Variables ####
 APP_VERSION <- "0.0.0"
