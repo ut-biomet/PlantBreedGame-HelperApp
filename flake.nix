@@ -25,31 +25,32 @@
         #     })
         #     {inherit system;})
         #   .pkgs;
-        R-with-my-packages = Rpkgs.rWrapper.override {
-          packages = with Rpkgs.rPackages; [
-            # list necessary R packages here
-            shiny
-            shinydashboard
-            shinycssloaders
-            shinyjs
-            DT
-            plotly
-            RAINBOWR
-            dendextend
-            lme4
-            glmnet
+        R-packages = with Rpkgs.rPackages; [
+          # list necessary R packages here
+          shiny
+          shinydashboard
+          shinycssloaders
+          shinyjs
+          DT
+          plotly
+          RAINBOWR
+          ggplot2
+          dendextend
+          lme4
+          glmnet
 
-            /*
-            developement packages
-            */
-            testthat
-            languageserver
-            styler
-          ];
+          /*
+          developement packages
+          */
+          testthat
+          languageserver
+          styler
+        ];
+      in rec {
+        packages.plantBreedGameHelperApp = pkgs.callPackage ./nix_Package/default.nix {
+          inherit pkgs;
         };
-      in {
-        packages = {
-        };
+        packages.default = packages.plantBreedGameHelperApp;
 
         devShells.default = pkgs.mkShell {
           LOCALE_ARCHIVE =
@@ -63,7 +64,8 @@
           R_ZIPCMD = "${pkgs.zip}/bin/zip";
           nativeBuildInputs = [pkgs.bashInteractive];
           buildInputs = [
-            R-with-my-packages
+            (Rpkgs.rWrapper.override {packages = R-packages;})
+            (Rpkgs.rstudioWrapper.override {packages = R-packages;})
             pkgs.sass
           ];
         };
@@ -75,7 +77,8 @@
               name = "runApp";
               text = ''
                 sass www/appStyle.scss www/appStyle.css
-                Rscript --vanilla -e "shiny::runApp()"
+                # Rscript --vanilla -e "shiny::runApp()"
+                ./plantBreedGameHelperApp.sh "$@"
               '';
             };
           in {

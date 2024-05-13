@@ -37,7 +37,6 @@ if (!file.exists("www/appStyle.css")) {
 }
 
 #### Global Variables ####
-APP_VERSION <- "0.0.0"
 COMMIT_ID <- getCommitID()
 
 APP_TITLE <- "Breeding game's tools"
