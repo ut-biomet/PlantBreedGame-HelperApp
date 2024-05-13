@@ -9,26 +9,29 @@
 options(stringsAsFactors = FALSE)
 
 #### PACKAGES ####
-library(shiny)
-library(shinydashboard) # dashboards with 'Shiny'
-# library("shinydashboardPlus") # https://rinterface.com/shiny/shinydashboardPlus/
-library(shinycssloaders) # Loading Animations
-library(shinyjs) # javascript in shiny
-stopifnot("sass" %in% installed.packages()) # use of SASS for generating CSS
+suppressPackageStartupMessages({
+  library(shiny)
+  library(shinydashboard) # dashboards with 'Shiny'
+  # library("shinydashboardPlus") # https://rinterface.com/shiny/shinydashboardPlus/
+  library(shinycssloaders) # Loading Animations
+  library(shinyjs) # javascript in shiny
 
-library(DT)
-library(plotly)
-library(stringr)
-library(RAINBOWR)
-library(ggplot2)
-library(dendextend)
-library(lme4)
+  library(DT)
+  library(plotly)
+  library(stringr)
+  library(RAINBOWR)
+  library(ggplot2)
+  library(dendextend)
+  library(lme4)
+})
 
 #### Functions ####
 # load all file from "src/functions"
 lapply(list.files("src/functions/",
-                  pattern = ".R$",
-                  full.names = TRUE), source)
+  pattern = ".R$",
+  full.names = TRUE
+), source)
+
 if (!file.exists("www/appStyle.css")) {
   stop("CSS file have not been initialised. Please run `sass www/appStyle.scss www/appStyle.css` before launching this application")
 }

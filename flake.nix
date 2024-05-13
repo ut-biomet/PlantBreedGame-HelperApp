@@ -43,6 +43,8 @@
             developement packages
             */
             testthat
+            languageserver
+            styler
           ];
         };
       in {
@@ -57,6 +59,7 @@
           LANG = "en_US.UTF-8";
           LC_ALL = "en_US.UTF-8";
           R_LIBS_USER = "''"; # to not use users' installed R packages
+          R_PROFILE_USER = "''"; # to disable`.Rprofile` files (eg. when the project already use `renv`)
           R_ZIPCMD = "${pkgs.zip}/bin/zip";
           nativeBuildInputs = [pkgs.bashInteractive];
           buildInputs = [
