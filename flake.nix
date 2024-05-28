@@ -3,12 +3,16 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/23.11";
     flake-utils.url = "github:numtide/flake-utils";
+
+    nix2container.url = "github:nlewo/nix2container";
+    nix2container.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
     self,
     nixpkgs,
     flake-utils,
+    nix2container,
   }:
     flake-utils.lib.eachDefaultSystem (
       system: let
@@ -46,11 +50,25 @@
           languageserver
           styler
         ];
+
+        nix2containerPkgs = nix2container.packages.${system};
+        imageBuilder =
+          (import ./nix_Package/image.nix {inherit nix2containerPkgs pkgs;})
+          .builder;
       in rec {
         packages.plantBreedGameHelperApp = pkgs.callPackage ./nix_Package/default.nix {
           inherit pkgs;
         };
         packages.default = packages.plantBreedGameHelperApp;
+
+        images = {
+          plantBreedGameHelperApp = let
+            plantBreedGameHelperApp = packages.plantBreedGameHelperApp;
+          in (imageBuilder {
+            imageName = "ghcr.io/ut-biomet/PlantBreedGame-HelperApp/plantBreedGameHelperApp";
+            inherit plantBreedGameHelperApp;
+          });
+        };
 
         devShells.default = pkgs.mkShell {
           LOCALE_ARCHIVE =

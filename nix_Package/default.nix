@@ -22,8 +22,8 @@
   };
 in
   pkgs.stdenv.mkDerivation (finalAttrs: rec {
-    pname = "PlantBreedGame-HelperApp";
-    version = "v1.0";
+    pname = "plantBreedGame-HelperApp";
+    version = builtins.readFile ../VERSION;
 
     src = pkgs.lib.sources.cleanSource ../.;
 
@@ -34,6 +34,9 @@ in
     propagatedBuildInputs = [
       R_with_packages
       pkgs.zip
+      pkgs.bash
+      # pkgs.which
+      pkgs.coreutils
     ];
 
     nativeBuildInputs = [
@@ -61,13 +64,16 @@ in
 
       mkdir $out/bin
       substituteInPlace ./plantBreedGameHelperApp.sh --replace "app_dir=\".\"" "app_dir=$out/app"
-      # in future the followin should be used:
+      # in future the following should be used:
       # substituteInPlace ./plantBreedGameHelperApp.sh --replace-fail "app_dir=\".\"" "app_dir=$out/app"
 
       cp ./plantBreedGameHelperApp.sh $out/bin/plantBreedGameHelperApp
       wrapProgram $out/bin/plantBreedGameHelperApp \
-        --set PATH ${lib.makeBinPath (propagatedBuildInputs ++ [pkgs.coreutils])} \
-        --set R_LIBS_USER "\"\""
+        --set PATH ${lib.makeBinPath propagatedBuildInputs} \
+        --set R_LIBS_USER "\"\"" \
+        --set R_ZIPCMD "${pkgs.zip}/bin/zip" \
+        --set LANG "C.UTF-8" \
+        --set LC_ALL "C.UTF-8"
 
       runHook postInstall
     '';

@@ -7,28 +7,29 @@ For more information about this game, please visit: [PlantBreedGame gitHub repos
 
 > Flutre, T., Diot, J., and David, J. (2019). PlantBreedGame: A Serious Game that Puts Students in the Breeder’s Seat. Crop Science. DOI 10.2135/cropsci2019.03.0183le
 
-# Installation on a Shiny-server
 
-```sh
-# get source code of the app
-git clone https://github.com/ut-biomet/PlantBreedGame-HelperApp.git
+# How to run
 
-# install R packages dependencies
-cd PlantBreedGame-HelperApp
-R -e 'renv::restore()'
-# because of R-Shiny, we need to isolate the renv libraries, see: https://community.rstudio.com/t/shiny-server-renv/71879/2
-R -e 'renv::isolate()'
+## With docker:
 
-# copy the application in Shiny-server's directory
-cd ~
-cp PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp
+First get the latest docker image:
 
-# # [optional] instead of copying the app in /srv/shiny-server, one can create
-# # symbolic links. By this way, the server can have several instances of the app:
-# ln -s /home/<user>/PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp-1
-# ln -s /home/<user>/PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp-2
-# ln -s /home/<user>/PlantBreedGame-HelperApp /srv/shiny-server/PlantBreedGame-HelperApp-3
 ```
+docker pull ghcr.io/ut-biomet/plantbreedgame-helperapp/plantbreedgamehelperapp:latest
+```
+
+Then you can run the docker image with for example:
+
+```
+docker run --rm -t --name plantbreedgamehelperapp -p 3838:3838 ghcr.io/ut-biomet/plantbreedgame-helperapp/plantbreedgamehelperapp:latest
+```
+
+To kill the image use `docker kill plantbreedgamehelperapp`.
+
+You can then access the application at: 127.0.0.1:3838. 
+
+> Note:  
+> You can change the listening port by modigying the command with `-p <PORT>:3838`, where `<PORT>` is the port number to listen. You will then be able to access the application at 127.0.0.1:<PORT>.
 
 
 # App documentation:
@@ -132,3 +133,51 @@ the "Plant material request" and "Genotyping request".
 1. Select the new generation name (G1, G2 ...)
 1. Upload the file downloaded at the "Mating" step
 1. You can then download a zip file containing the request for PlantBreedGame.
+
+
+# For Developpers:
+
+## Development
+
+You need to install ["Nix"](https://nixos.org/) in order to work on this project. 
+
+
+<details><summary>Install Nix</summary>
+
+For Linux and Windows Subsystem for Linux (WSL), you can use the Determinate Systems Nix installer:
+
+```
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+```
+
+It is also recommended to install ["direnv"](https://direnv.net/).
+
+```
+nix profile install nixpkgs#nix-direnv
+mkdir -p $HOME/.config/direnv/
+echo 'source $HOME/.nix-profile/share/nix-direnv/direnvrc' > $HOME/.config/direnv/direnvrc
+```
+
+You can then have a full developement environment by just doing `cd path/to/breedGame-HelpApp`. (the first time you will need to run `direnv allow`).
+
+</details>
+
+You can then start the application with: 
+
+```
+nix run
+```
+
+Some other arguments can be passed too for example:
+
+```
+nix run . -- --help
+nix run . -- --port 3000 --host 0.0.0.0
+```
+
+## Maintainance
+
+The [Makefile](./Makefile) contains usefull commands to run some maintainance tasks:
+- Build and copy the docker image to the docker deamon : `make dockerImage`
+- Build and **push** the docker image to the registry: `make pushImage`
+
